@@ -74,6 +74,7 @@ Route::get('/pemesananreservasi', [Pemesanan::class, 'pemesananreservasi'])->nam
 // Route::any('/save-total', [Pemesanan::class, 'insertreservasi'])->name('insertreservasi');
 // Route::post('/simpanpsn', [Pemesanan::class, 'SimpanPsn'])->name('simpan-psn');
 Route::any('/insertreservasi', [Pemesanan::class,'create']);
+Route::any('/insertpesanan', [Pemesanan::class,'create1']);
 // Route::get('/insertpesan', [Pemesanan::class,'create']);
 
 // Route::post('/simpann', [Pemesanan::class,'simpan'])->name('simpann');
@@ -81,3 +82,8 @@ Route::any('/insertreservasi', [Pemesanan::class,'create']);
 // Route::get('/pemesanan', [Pemesanan::class, 'pemesanan'])->name('pemesanan');
 Route::any('deletemenu/{id}', [SMenuMkn::class, 'deletemenu'])->name('deletemenu');
 Route::any('deleteuser{id}', [Karyawan::class, 'deleteuser'])->name('deleteuser');
+
+//edit
+Route::any('editmenu/{id}', [SMenuMkn::class, 'editmenu'])->name('editmenu');
+Route::any('updatemenumkn/{id}', [SMenuMkn::class, 'updatemenu'])->name('updatemenu');
+

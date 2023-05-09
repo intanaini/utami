@@ -99,11 +99,10 @@
                           </i>
                           View
                       </a>
-                      <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="editmakan"><a>
+                      <a type="button" class="btn btn-info btn-sm" href="{{route('editmenu',$key->id)}}">
                             <i class="fas fa-pencil-alt">
                             </i>
-                            Edit
-                        </a></button>
+                            Edittttt
                       <a class="btn btn-danger btn-sm" href="{{route('deletemenu',$key->id)}}">
                           <i class="fas fa-trash">
                           </i>

@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id();
             // $table->unsignedBigInteger('id_lapmasuk');
             $table->string('nama_pelanggan');
-            $table->string('no_telepon');
-            $table->dateTime('waktu');
+            $table->string('no_telepon')->nullable();
+            $table->string('no_meja')->nullable();
+            $table->dateTime('waktu')->nullable();
             $table->string('total_pesanan');
             $table->string('status_pesanan');
             $table->string('total_pembayaran');
-            $table->string('catatan');
+            $table->string('catatan')->nullable();
             $table->string('type_pesanan');
             // $table->foreign('id_lapmasuk')->references('id')->on('lapmasuks')->onDelete('cascade');
             $table->timestamps();

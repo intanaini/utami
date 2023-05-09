@@ -105,64 +105,156 @@
 
 @endsection
 @push('js')
+{<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 {{-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> --}}
-<script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
-    <script>
-        const saveButton = document.getElementById('save-button');
+<script>
+    const saveButton = document.getElementById('save-button');
 
-        const inputs = document.querySelectorAll('.item-quantity');
-        const prices = document.querySelectorAll('.item-price');
-        const totalOutput = document.getElementById('total');
+    const inputs = document.querySelectorAll('.item-quantity');
+    const prices = document.querySelectorAll('.item-price');
+    const totalOutput = document.getElementById('total');
 
-        function updateTotal() {
-            let total = 0;
-            inputs.forEach((input, index) => {
-                const quantity = parseInt(input.value) || 0;
-                const price = parseInt(prices[index].textContent.replace('Rp.', '')) || 0;
-                total += quantity * price;
-            });
-            totalOutput.textContent = total;
-        }
+    function updateTotal() {
+        let total = 0;
+        inputs.forEach((input, index) => {
+            const quantity = parseInt(input.value) || 0;
+            const price = parseInt(prices[index].textContent.replace('Rp.', '')) || 0;
+            total += quantity * price;
+        });
+        totalOutput.textContent = total;
+    }
+
+    inputs.forEach(input => {
+        input.addEventListener('input', updateTotal);
+    });
+
+    // Update total on page load
+    updateTotal();
+
+    saveButton.addEventListener('click', function() {
+        let isValid = false; // set isValid to false initially
+  inputs.forEach(input => {
+    const quantity = parseInt(input.value) || 0;
+    if (quantity > 0) { // check if quantity is greater than 0
+      isValid = true; // set isValid to true if at least one item has a quantity greater than 0
+    }
+    if (quantity < 0) { // check if quantity is less than 0
+      isValid = false; // set isValid to false if quantity is negative
+      input.classList.add('is-invalid');
+    } else {
+      input.classList.remove('is-invalid');
+    }
+  });
+  if (!isValid) {
+    Swal.fire({
+      title: 'Error!',
+      text: 'Please enter a valid quantity for at least one item.',
+      icon: 'error',
+      confirmButtonText: 'OK'
+    });
+    return;
+  }
+  const namaPelangganInput = document.getElementById('nama_pelanggan');
+    const namaPelanggan = namaPelangganInput.value.trim();
+    if (namaPelanggan === '') {
+        namaPelangganInput.classList.add('is-invalid');
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please enter your name.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+        return;
+    } else {
+        namaPelangganInput.classList.remove('is-invalid');
+    }
+
+    // Validate no_telepon
+    const noTeleponInput = document.getElementById('no_telepon');
+    const noTelepon = noTeleponInput.value.trim();
+    if (noTelepon === '') {
+        noTeleponInput.classList.add('is-invalid');
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please enter your phone number.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+        return;
+    } else if (noTelepon.length <= 10) {
+        noTeleponInput.classList.add('is-invalid');
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please enter a phone number with more than 11 digits.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+        return;
+    } else {
+        noTeleponInput.classList.remove('is-invalid');
+    }
+
+
+    // Validate waktu
+    const waktuInput = document.getElementById('waktu');
+    const waktu1 = waktuInput.value.trim();
+    if (waktu1 === '') {
+        waktuInput.classList.add('is-invalid');
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please enter a valid time.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+        return;
+    } else {
+        waktuInput.classList.remove('is-invalid');
+    }
+        const items = {};
 
         inputs.forEach(input => {
-            input.addEventListener('input', updateTotal);
+            const id = input.id.replace('input-', '');
+            const quantity = input.value;
+            items[id] = quantity;
         });
+        const catatan = document.getElementById('catatan').value; // get the value of the catatan field
 
-        // Update total on page load
-        updateTotal();
-
-        saveButton.addEventListener('click', function() {
-            const items = {};
-            inputs.forEach(input => {
-                const id = input.id.replace('input-', '');
-                const quantity = input.value;
-                items[id] = quantity;
-            });
-            const catatan = document.getElementById('catatan').value; // get the value of the catatan field
             const no_telepon = document.getElementById('no_telepon').value;
             const nama_pelanggan = document.getElementById('nama_pelanggan').value;
             const waktu = document.getElementById('waktu').value;
-            // const no_telepon = document.getElementById('no_telepon').value;
-            // get the value of the catatan field
-// console.log(items)
-                axios.post('/insertreservasi', {
-                    items: items,
-                    catatan: catatan,
-                    no_telepon: no_telepon,
-                    nama_pelanggan: nama_pelanggan,
-                    waktu: waktu,
-
-                }, {
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                    }
-                })
-                .then(response => {
-                console.log('from handle submit', response);
-                })
-                .catch(error => {
-   console.log(error.response)
- });
-        });
-    </script>
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/insertreservasi', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Data has been saved',
+                        confirmButtonText: 'OK',
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Data could not be saved',
+                        confirmButtonText: 'OK',
+                    });
+                }
+            }
+        };
+        xhr.send(JSON.stringify({
+            items: items,
+            catatan: catatan,
+            no_telepon: no_telepon,
+            nama_pelanggan: nama_pelanggan,
+            waktu: waktu
+        }));
+    });
+</script>
 @endpush

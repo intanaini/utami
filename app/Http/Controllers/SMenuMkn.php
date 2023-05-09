@@ -96,4 +96,23 @@ class SMenuMkn extends Controller
         return redirect()->route('smenumkn')->with('success','Data Berhasil Di Hapus');
     }
 
+    public function editmenu($id)
+{
+    $menu = menu::findOrFail($id); // Mengambil post dengan id tertentu
+
+    return view('layouts.editmenu', compact('menu')); // Menampilkan halaman edit dengan data post
+}
+
+public function update(Request $request, $id)
+{
+    $menu = menu::findOrFail($id); // Mengambil menu dengan id tertentu
+
+    $menu->title = $request->input('title'); // Mengupdate judul menu
+    $menu->content = $request->input('content'); // Mengupdate konten menu
+
+    $menu->save(); // Menyimpan perubahan pada database
+
+    return redirect()->route('menus.show', $menu->id); // Mengarahkan ke halaman detail post yang sudah diupdate
+}
+
 }

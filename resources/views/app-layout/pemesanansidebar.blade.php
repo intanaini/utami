@@ -25,23 +25,23 @@
                with font-awesome or any other icon font library -->
                <li class="nav-item">
                 <a href="/pemesananmkn" class="nav-link">
-                  <i class="nav-icon fa fa-user"></i>
+                  <i class="nav-icon fas fa-bacon"></i>
                   <p>
-                    Pemesanan Makanan
+                    Pemesanan Menu
                   </p>
                 </a>
               </li>
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                 <a href="/pemesananmnm" class="nav-link">
                   <i class="nav-icon fa fa-user"></i>
                   <p>
                     Pemesanan Minuman
                   </p>
                 </a>
-              </li>
+              </li> --}}
               <li class="nav-item">
                 <a href="/pemesananreservasi" class="nav-link">
-                  <i class="nav-icon fa fa-user"></i>
+                  <i class="nav-icon fas fa-calendar-alt"></i>
                   <p>
                     Pemesanan Reservasi
                   </p>

@@ -34,17 +34,17 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-               <li class="nav-item">
+               {{-- <li class="nav-item">
                 <a href="/karyawan" class="nav-link">
                   <i class="nav-icon fa fa-user"></i>
                   <p>
                     Karyawan
                   </p>
                 </a>
-              </li>
+              </li> --}}
               <li class="nav-item">
                 <a href="/dftrpesanan" class="nav-link">
-                  <i class="nav-icon fa fa-user"></i>
+                  <i class="nav-icon fas fa-clipboard"></i>
                   <p>
                     Daftar Pesanan
                   </p>
@@ -52,7 +52,7 @@
               </li>
               <li class="nav-item">
                 <a href="/dftrreservasi" class="nav-link">
-                  <i class="nav-icon fa fa-user"></i>
+                  <i class="nav-icon far fa-clipboard"></i>
                   <p>
                     Daftar Reservasi
                   </p>

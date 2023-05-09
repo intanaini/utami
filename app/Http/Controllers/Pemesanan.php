@@ -15,11 +15,12 @@ class Pemesanan extends Controller
     // return view('layouts.pemesanan');
     //   }
 
-    public function pemesananmkn()
+    public function pemesananmkn(Request $request)
     {
         $menumkn = menu::all();
-        // return view('layouts.pemesananmkn', ['pesanan' => $menumkn]);
-        return view('welcome',[ 'pesanan'=> $menumkn]);
+        $no_meja = $request->query('no-meja');
+        return view('layouts.pemesananmkn', ['makan' => $menumkn,'no_meja'=>$no_meja]);
+        // return view('welcome',[ 'pesanan'=> $menumkn]);
 
 
     }
@@ -31,11 +32,11 @@ class Pemesanan extends Controller
     }
 
 
-    public function pemesananmnm()
-    {
-        $menumakan = menu::all();
-        return view('layouts.pemesananmnm', ['makan' => $menumakan]);
-    }
+    // public function pemesananmnm()
+    // {
+    //     $menumakan = menu::all();
+    //     return view('layouts.pemesananmnm', ['makan' => $menumakan]);
+    // }
 
     public function pemesananreservasi()
     {
@@ -51,7 +52,7 @@ class Pemesanan extends Controller
         // dd($request->input('nama_pelanggan'));
 
         $pesananan->nama_pelanggan = $request->input('nama_pelanggan');
-        $pesananan->no_telepon = $request->input('no_telpon');
+        $pesananan->no_telepon = $request->input('no_telepon');
         $pesananan->waktu = $request->input('waktu');
         $pesananan->total_pesanan = $total;
         $pesananan->status_pesanan = 'Di Proses';
@@ -84,21 +85,22 @@ class Pemesanan extends Controller
 
         return response()->json(['success' => true]);
     }
-
-    public function simpan(Request $request)
+    public function create1(Request $request)
     {
         $items = $request->input('items');
         $total = 0;
         $pesananan = new pemesanan_menu();
+        // dd($request->input('nama_pelanggan'));
 
-        $pesananan->nama_pelanggan = 'coba';
-        $pesananan->no_telepon = 'coba';
-        $pesananan->waktu = Carbon::now();
+        $pesananan->nama_pelanggan = $request->input('nama_pelanggan');
+        // $pesananan->no_telepon = $request->input('no_telepon');
+        // $pesananan->waktu = $request->input('waktu');
+        $pesananan->no_meja = $request->input('no_meja');
         $pesananan->total_pesanan = $total;
-        $pesananan->status_pesanan = 'coba';
+        $pesananan->status_pesanan = 'Di Proses';
         $pesananan->total_pembayaran = $total;
-        $pesananan->type_pesanan = 'Reservasi';
-        $pesananan->catatan = 'ppp';
+        $pesananan->type_pesanan = 'Makan Ditempat';
+        $pesananan->catatan = $request->input('catatan');
         $pesananan->save();
 
         foreach ($items as $id => $quantity) {
@@ -107,9 +109,9 @@ class Pemesanan extends Controller
             $total += $subtotal;
 
             $penjualan = new rincian_psn();
-            $penjualan->barang_id = $id;
+            $penjualan->id_menu  = $id;
             // $penjualan->barang_id = $id;
-            $penjualan->transaksi_id = $pesananan->id;
+            $penjualan->id_pesanan  = $pesananan->id;
             $penjualan->qty = $quantity;
             $penjualan->total = $subtotal;
 
@@ -117,115 +119,16 @@ class Pemesanan extends Controller
         }
 
         rincian_psn::where('qty', 0)->delete();
-        $jumlah = rincian_psn::where('transaksi_id', $pesananan->id)->sum('total');
-        $jumlah_psn = rincian_psn::where('transaksi_id', $pesananan->id)->sum('qty');
+        $jumlah = rincian_psn::where('id_pesanan', $pesananan->id)->sum('total');
+        $jumlah_psn = rincian_psn::where('id_pesanan', $pesananan->id)->sum('qty');
 
         $pesananan->update(['total_pembayaran' => $jumlah, 'total_pesanan' => $jumlah_psn]);
 
 
         return response()->json(['success' => true]);
     }
-    public function insertreservasi(Request $request)
-    {
-        // $this->validate($request, [
-        //     'nama_pelanggan' => 'required',
-        //     'no_telepon' => 'required|min:11',
-        //     'waktu' => 'required',
-        //     'total_pesanan' => 'required',
-        //     'status_pesanan' => 'required',
-        //     'total_pembayaran' => 'required',
-        //     'catatan' => 'required',
-
-        // ]);
-
-        // pemesanan_menu::create([
-        //     'nama_pelanggan' => $request->namapelanggan,
-        //     'no_telepon' => $request->no_telepon,
-        //     'waktu' => $request->waktu,
-        //     'total_pesanan' => $request->total_pesanan,
-        //     'status_pesanan' => $request->status_pesanan,
-        //     'total_pembayaran' => $request->total_pembayaran,
-        //     'catatan' => $request->catatan,
-        //     // 'id_user'=> Auth::user()->id,
-        //     'typepemesanan' => 'Reservasi',
-        // ]);
-
-        $items = $request->input('items');
-    //    dd($request->all());
 
 
-        // $total = 0;
-        // $pesananan = new pemesanan_menu();
-        // // $pesananan->id_lapmasuk = 1;
-        // $pesananan->nama_pelanggan = 'coba';
-        // $pesananan->no_telepon = 'coba';
-        // $pesananan->waktu = Carbon::now();
-        // $pesananan->total_pesanan = $total;
-        // $pesananan->status_pesanan = 'coba';
-        // $pesananan->total_pembayaran = $total;
-        // $pesananan->type_pesanan = 'Reservasi';
-        // $pesananan->catatan = 'ppp';
-        // $pesananan->save();
-
-        // foreach ($items as $id => $quantity) {
-        //     $price = menu::where('id', $id)->value('price');
-        //     $subtotal = $price * $quantity;
-        //     $total += $subtotal;
-
-        //     $penjualan = new rincian_psn();
-        //     $penjualan->barang_id = $id;
-        //     // $penjualan->barang_id = $id;
-        //     $penjualan->transaksi_id = $pesananan->id;
-        //     $penjualan->qty = $quantity;
-        //     $penjualan->total = $subtotal;
-
-        //     $penjualan->save();
-        // }
-
-        // rincian_psn::where('qty', 0)->delete();
-        // $jumlah = rincian_psn::where('transaksi_id', $pesananan->id)->sum('total');
-        // $jumlah_psn = rincian_psn::where('transaksi_id', $pesananan->id)->sum('qty');
-
-        // $pesananan->update(['total_pembayaran' => $jumlah, 'total_pesanan' => $jumlah_psn]);
 
 
-        // return response()->json(['success' => true]);
-
-        // return redirect()->route('pemesananreservasi');
-    }
-
-    public function SimpanPsn(Request $request)
-    {
-        $items = $request->input('items');
-        $total = 0;
-        $transaction = new pemesanan_menu();
-        $transaction->total = $total;
-        $transaction->catatan = $request->input('catatan'); // retrieve the catatan field from the request object
-        $transaction->save();
-
-        foreach ($items as $id => $quantity) {
-            $price = menu::where('id', $id)->value('price');
-            $subtotal = $price * $quantity;
-            $total += $subtotal;
-            $penjualan = new rincian_psn();
-            $penjualan->barang_id = $id;
-            // $penjualan->barang_id = $id;
-            $penjualan->transaksi_id = $transaction->id;
-            $penjualan->qty = $quantity;
-            $penjualan->total = $subtotal;
-
-            $penjualan->save();
-        }
-
-        $jumlah = rincian_psn::where('transaksi_id', $transaction->id)->sum('total');
-        $transaction->update(['total' => $jumlah]);
-
-
-        rincian_psn::where('qty', 0)->delete();
-        // Save the total value to your database or perform other actions...
-        // For example:
-        // $transaction = new Transaction();
-
-        return response()->json(['success' => true]);
-    }
 }
