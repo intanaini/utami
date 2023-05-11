@@ -55,7 +55,7 @@ class SMenuMkn extends Controller
 
         ]);
 
-        return redirect()->route('bahanmkn');
+        return redirect()->route('smenumkn');
         }
 
             public function insertmenumnm(Request $request)

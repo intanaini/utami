@@ -65,6 +65,7 @@ Route::get('/masukanperbulan', [Laporan::class, 'masukanperbulan'])->name('masuk
 Route::get('/pengeluaranperbulan', [Laporan::class, 'pengeluaranperbulan'])->name('pengeluaranperbulan');
 Route::post('/lpengeluaran/filter', [Laporan::class, 'lpengeluaran@filter'])->name('lpengeluaran.filter');
 Route::post('/laporan/filter', [Laporan::class,'filter'])->name('laporan.filter');
+Route::get('/pengeluaranperminggu', [Laporan::class, 'lpengeluaran@filter'])->name('lpengeluaran.php');
 
 // pemesanan
 Route::get('/pemesananmkn', [Pemesanan::class, 'pemesananmkn'])->name('pemesananmkn');

@@ -1,13 +1,9 @@
 @extends('layouts.main')
 
 @section('isi')
-{{-- @json($laporan) --}}
 <div class="card">
     <div class="card-header">
-      <h3 class="card-title">Daftar Laporan Pengeluaran Perbulan Warung Makan Utami 354
-
-
-      </h3>
+      <h3 class="card-title">Daftar Laporan Pengeluaran PerMinggu Warung Makan Utami 354</h3>
     </div>
     {{-- @json($laporan) --}}
     <!-- /.card-header -->
