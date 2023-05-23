@@ -2,6 +2,7 @@
 
 @section('pemesanan.isi')
 <div class="card card-primary">
+
     <div class="card-header">
       <h3 class="card-title">Formulir Reservasi Di Warung Makan Utami 354</h3>
     </div>
@@ -32,7 +33,7 @@
                             </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Waktu Reservasi</label>
-                              <input value="{{old('waktu')}}" type="date" class="form-control" id="waktu" name="waktu" placeholder="Waktu Reservasi">
+                              <input value="{{old('waktu')}}" type="datetime-local" step="3600" class="form-control" id="waktu" name="waktu" placeholder="Waktu Reservasi">
                               @error('waktu')
                               <span class="invalid-feedback" role="alert">
                                   <strong>{{ $message }}</strong>
@@ -43,33 +44,33 @@
                         <label for="exampleInputEmail1">Menu Pesanan</label>
                         <div class="row">
                         @foreach ( $makan as $key )
-                        <div class="col-6">
-
+                        <div class="col-sm-12 col-md-6 col-lg-4">
                         <div class="custom-control custom-checkbox">
-                            <div class="row">
-                                <div class="col-4 badge bg-secondary mb-1">
+                            {{-- <div class="row"> --}}
+                                <div class="col-sm-6 col-md-6 col-lg-6 badge bg-secondary mb-1">
                                     {{-- <input class="custom-control-input" type="checkbox" id="customCheckbox1" value="option1"> --}}
                                     <label for="menuss"  class="">{{ $key->nama_menu }}</label><br>
                                     <img alt="Avatar" id="menuss" class="" style="height: 100px ;width: auto;" src="{{asset('storage/images/'.$key->gambar) }}">
                                     {{-- <br> --}}
                                     {{-- <span class="item-price"> Harga = Rp.{{ $key->harga_menu }}</span> --}}
                                 </div>
-                                <div class="col-6">
+                                <div class="col-sm-3 col-md-3 col-lg-3">
                                     <label for="input-{{ $key->id }}">Jumlah</label>
                                     <input id="input-{{ $key->id }}" type="number" min="0" value="0"  data-price="{{ $key->harga_menu }}" class="form-control item-quantity" placeholder="masukkan jumlah">
                                 </div>
-                                <div class="col-2">
+                                <div class="col-sm-3 col-md-3 col-lg-3">
                                     <label>Harga</label>
                                     {{-- <input type="number" class="form-control" value="{{ $key->harga_menu }}" readonly> --}}
-                                    <span class="item-price">   Rp.{{ $key->harga_menu }}</span>
+                                    <span class="item-price ">   Rp.{{ $key->harga_menu }}</span>
                                 </div>
-                            </div>
+
                           </div>
                         </div>
 
                           @endforeach
                         </div>
-
+                    </div>
+                </div>
                               {{-- <input value="{{old('menu_pesanan')}}" type="text" class="form-control" name="menu_pesanan" placeholder="Menu Pesanan"> --}}
                               @error('menu_pesanan')
                               <span class="invalid-feedback" role="alert">
@@ -88,7 +89,7 @@
       </div>
       <div class="form-group">
         <label for="catatan"><p>Catatan  </p></label> <br>
-        <textarea name="catatan" class="catatan" id="catatan" cols="100" rows="10"></textarea><br>
+        <textarea name="catatan" class="catatan" id="catatan" cols="10" rows="4"></textarea><br>
         <label for="exampleInputEmail1"><p>Total Pembayaran : Rp. <span id="total"></span></p></label>
             </div>
 <div class="form-group">

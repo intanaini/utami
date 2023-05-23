@@ -18,4 +18,14 @@ class pemesanan_menu extends Model
         'catatan',
         'type_pemesanan'
     ];
+
+
+    protected $casts =[
+        'waktu'=> 'datetime'
+    ];
+
+    public function detail()
+    {
+      return  $this->hasMany(rincian_psn::class,'id_pesanan');
+    }
 }

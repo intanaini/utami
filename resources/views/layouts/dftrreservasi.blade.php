@@ -23,41 +23,51 @@
         <div class="card-body table-responsive p-0" style="height: 300px;">
           <table class="table table-head-fixed text-nowrap">
             <thead>
-              <tr>
-                <th>ID Reservasi</th>
-                <th>waktu</th>
-                <th>Nama Pelanggan</th>
-                <th>Menu Pesanan</th>
-                <th>Total Pesanan</th>
-                <th>Total Pembayaran</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>183</td>
-                <td>01-06-2023</td>
-                <td>Danil</td>
-                <td>Ayam Panggang & Es teh</td>
-                <td>5</td>
-                <td><span class="tag tag-success">270.000</span></td>
-              </tr>
-              <tr>
-                <td>219</td>
-                <td>01-06-2023</td>
-                <td>Sandara</td>
-                <td>Ayam Bakar & Jus Jambu</td>
-                <td>10</td>
-                <td><span class="tag tag-warning">230.000</span></td>
-              </tr>
-              <tr>
-                <td>657</td>
-                <td>01-06-2023</td>
-                <td>Lisa</td>
-                <td>Sop Ayam Pecok & Es Jeruk</td>
-                <td>25</td>
-                <td><span class="tag tag-primary">450.000</span></td>
-              </tr>
-            </tbody>
+                <tr>
+                    <th>ID </th>
+                    <th>Waktu</th>
+                    <th>Nama Pelanggan</th>
+                    <th>Menu </th>
+                    <th>Jumlah Pesanan</th>
+                    <th>Total Pembayaran</th>
+                    <th>Waktu Reservasi</th>
+                    <th>No Telpon</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                @foreach ($pesan as $item)
+
+                <tbody>
+                  <tr>
+                    <td>{{ $item->id}}</td>
+                    <td>{{ $item->created_at}}</td>
+                    <td>{{ $item->nama_pelanggan}}</td>
+                    <td>@foreach ($item->detail as $key)
+                        {{$key->menu->nama_menu.' x '.$key->qty}}
+
+                    @endforeach</td>
+                    <td>{{ $item->total_pesanan}}</td>
+                    <td>{{ $item->total_pembayaran}}</td>
+                    <td>{{ $item->waktu->format('d M Y H:i:s a')}}</td>
+                    <td>{{ $item->no_telepon}}</td>
+<td>
+    <form action="{{ route('updateStatusPsn',$item->id)}}" method="POST">
+        @csrf
+        @method('PUT')
+
+    <select class="custom-select form-control-border" onchange="this.form.submit()" name="status_pesanan" id="status_pesanan">
+        <option {{ $item->status_pesanan == 'Reservasi' ? 'selected':''}} value="Reservasi" >Reservasi</option>
+        <option {{ $item->status_pesanan == 'Di Proses' ? 'selected':''}} value="Di Proses" >Diproses</option>
+        <option {{ $item->status_pesanan == 'Disajikan' ? 'selected':''}} value="Disajikan" >Disajikan</option>
+        <option {{ $item->status_pesanan == 'Selesai' ? 'selected':''}} value="Selesai" >Selesai</option>
+      </select>
+    </form>
+</td>
+
+                  </tr>
+
+                </tbody>
+                @endforeach
           </table>
         </div>
         <!-- /.card-body -->

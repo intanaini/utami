@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\pemesanan_menu;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -17,12 +18,27 @@ class Karyawan extends Controller
 
     public function dftrpesanan()
     {
-    return view('layouts.dftrpesanan');
+        $pemesanan = pemesanan_menu::where('type_pesanan','Makan Ditempat')->get();
+    return view('layouts.dftrpesanan', ['pesan' => $pemesanan]);
+    }
+
+    public function updateStatusPsn(Request $request,$id)
+    {
+        $pemesanan = pemesanan_menu::where('id',$id)->first();
+        $pemesanan->update([
+            'status_pesanan'=>$request->input('status_pesanan')
+        ]);
+
+        return redirect()->back();
+
     }
 
     public function dftrreservasi()
     {
-    return view('layouts.dftrreservasi');
+        $pemesanan = pemesanan_menu::where('type_pesanan','Reservasi')->get();
+
+    return view('layouts.dftrreservasi',['pesan' => $pemesanan]);
+
     }
 
 

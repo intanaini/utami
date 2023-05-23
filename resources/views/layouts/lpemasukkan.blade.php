@@ -9,39 +9,158 @@
     <div class="card-body">
       <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6">
           <div class="dt-buttons btn-group flex-wrap">
-                  </div> </div></div><div class="col-sm-12 col-md-6"><div id="example1_filter" class="dataTables_filter">
-                      <label>Cari:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1"></label></div></div></div>
-                      <div class="row"><div class="col-sm-12"><table id="example1" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="example1_info">
+                  </div> </div></div>
+                  <div class="col-sm-12 col-md-6">
+                    <div id="example1_filter" class="dataTables_filter">
+                      {{-- <label>Cari:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1"></label> --}}
+                    </div>
+                </div>
+            </div>
+
+
+<form method="post" action="{{ route('laporan.filtermasukan') }}">
+    @csrf
+
+    <select name="tanggal">
+        <option value="">Tanggal</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+        <option value="25">25</option>
+        <option value="26">26</option>
+        <option value="27">27</option>
+        <option value="28">28</option>
+        <option value="29">29</option>
+        <option value="30">30</option>
+        <option value="31">31</option>
+        <option value="32">32</option>
+        {{-- <option value="33">33</option> --}}
+
+        <!-- Tambahkan pilihan bulan sesuai kebutuhan -->
+    </select>
+    {{-- <select name="hari">
+        <option value="">Hari</option>
+        <option value="1">Januari</option>
+        <option value="2">Februari</option>
+        <option value="3">Maret</option>
+        <option value="4">April</option>
+        <option value="5">Mei</option>
+        <option value="6">Juni</option>
+        <option value="7">Juli</option>
+        <option value="8">Agustus</option>
+        <option value="9">September</option>
+        <option value="10">Oktober</option>
+        <option value="11">November</option>
+        <option value="12">Desember</option>
+
+        <!-- Tambahkan pilihan bulan sesuai kebutuhan -->
+    </select> --}}
+
+
+    <select name="bulan">
+        <option value="">Bulan</option>
+        <option value="1">Januari</option>
+        <option value="2">Februari</option>
+        <option value="3">Maret</option>
+        <option value="4">April</option>
+        <option value="5">Mei</option>
+        <option value="6">Juni</option>
+        <option value="7">Juli</option>
+        <option value="8">Agustus</option>
+        <option value="9">September</option>
+        <option value="10">Oktober</option>
+        <option value="11">November</option>
+        <option value="12">Desember</option>
+
+        <!-- Tambahkan pilihan bulan sesuai kebutuhan -->
+    </select>
+
+    <select name="tahun">
+        <option value="">Tahun</option>
+        @foreach ( $thn as $item )
+        <option value="{{$item->format('Y')}}">{{$item->format('Y')}}</option>
+
+        @endforeach
+
+        <!-- Tambahkan pilihan bulan sesuai kebutuhan -->
+    </select>
+
+    <button type="submit">Filter</button>
+
+
+</form>
+        <div class="row"><div class="col-sm-12"><table id="example1" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="example1_info">
         <thead>
-        <tr><th class="sorting sorting_desc" tabindex="0" aria-controls="example1" rowspan="1"
-      colspan="1" aria-label="Rendering engine: activate to sort column ascending"
-      aria-sort="descending">Jam</th><th class="sorting" tabindex="0"
-      aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Tanggal</th><th class="sorting" tabindex="0"
-      aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Total Pemasukan</th></th></tr>
+        <tr><th >ID</th>
+      <th >Waktu</th>
+      <th >Nama</th>
+    </th>
+    <th >Menu</th>
+  </th>
+  <th >Jumlah Pesanan</th>
+  </th>
+  <th>Total Pembayaran</th>
+  </th>
+  <th>Status</th>
+</th>
+<th >Jenis Pesanan</th>
+</th>
+</tr>
         </thead>
         <tbody>
+            @foreach ($lpmasuk as $item)
+
         <tr class="odd">
-          <td class="dtr-control sorting_1" tabindex="0">10.00</td>
-          <td class="">01-06-2023</td>
-          <td>70.000</td>
-        </tr><tr class="even">
-          <td class="dtr-control sorting_1" tabindex="0">10.20</td>
-          <td class="">01-06-2023</td>
-          <td>89.000</td>
-        </tr><tr class="odd">
-          <td class="dtr-control sorting_1" tabindex="0">10.35</td>
-          <td class="">01-06-2023</td>
-          <td>120.000</td>
-        </tr><tr class="even">
-          <td class="dtr-control sorting_1" tabindex="0">11.000</td>
-          <td class="">01-06-1023</td>
-          <td>45.000</td>
+            <td>{{ $item->id}}</td>
+            <td>{{ $item->created_at}}</td>
+            <td>{{ $item->nama_pelanggan}}</td>
+
+            <td style="width:20%">@foreach ($item->detail as $key)
+
+                {{$key->menu->nama_menu.' x '.$key->qty}}
+
+            @endforeach</td>
+            <td>{{ $item->total_pesanan}}</td>
+            <td>{{ $item->total_pembayaran}}</td>
+            <td>{{ $item->status_pesanan}}</td>
+            <td>{{ $item->type_pesanan}}</td>
+
         </tr></tbody>
+        @endforeach
         <tfoot>
-        <tr><th rowspan="1" colspan="1">Jam</th><th rowspan="1" colspan="1">Tanggal</th><th rowspan="1" colspan="1">Total Pemasukan</th>
+        <tr><th rowspan="1" colspan="1">Jam</th><th rowspan="1" colspan="1">Tanggal</th>
+                  <th rowspan="1" colspan="1">Total Pemasukan</th>
+                  <th>Rp. {{ number_format($lpmasuk->sum('total_pembayaran')) }}</th>
+
         </tfoot>
-      </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="example1_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="example1_previous"><a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="example1_next"><a href="#" aria-controls="example1" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
-    </div>
+      </table>
+
+      </div></div>
+      {{-- <div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="example1_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="example1_previous"><a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="example1_next"><a href="#" aria-controls="example1" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+    </div> --}}
     <!-- /.card-body -->
   </div>
 @endsection
+
+

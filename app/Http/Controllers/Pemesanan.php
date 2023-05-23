@@ -40,6 +40,7 @@ class Pemesanan extends Controller
 
     public function pemesananreservasi()
     {
+
         $menumakan = menu::all();
         return view('layouts.pemesananreservasi', ['makan' => $menumakan]);
 
@@ -55,7 +56,7 @@ class Pemesanan extends Controller
         $pesananan->no_telepon = $request->input('no_telepon');
         $pesananan->waktu = $request->input('waktu');
         $pesananan->total_pesanan = $total;
-        $pesananan->status_pesanan = 'Di Proses';
+        $pesananan->status_pesanan = 'Reservasi';
         $pesananan->total_pembayaran = $total;
         $pesananan->type_pesanan = 'Reservasi';
         $pesananan->catatan = $request->input('catatan');

@@ -21,81 +21,71 @@
           </div>
         </div>
         <!-- /.card-header -->
-        <div class="card-body table-responsive p-0" style="height: 300px;">
-          <table class="table table-head-fixed text-nowrap">
+        <div class="card-body table-responsive p-0" style="width:100%">
+
+          <table class="table table-head-fixed text-nowrap" >
             <thead>
               <tr>
-                <th>ID Pemesanan</th>
-                <th>waktu</th>
+                <th>ID</th>
+                <th>Waktu</th>
                 <th>Nama Pelanggan</th>
+                <th style="width:20%"> Menu  </th>
                 <th>Jumlah Pesanan</th>
                 <th>Total</th>
+                <th>No Meja</th>
+                <th>Catatan</th>
+                <th>Status</th>
+                {{-- <th>Jenis Pesanan</th> --}}
+
               </tr>
             </thead>
+            @foreach ($pesan as $item)
+
             <tbody>
               <tr>
-                <td>183</td>
-                <td>01-06-2023</td>
-                <td>Danil</td>
-                <td>3</td>
-                <td><span class="tag tag-success">74.000</span></td>
+                <td>{{ $item->id}}</td>
+                <td>{{ $item->created_at}}</td>
+                <td>{{ $item->nama_pelanggan}}</td>
+
+                <td >
+                    @foreach ($item->detail as $key)
+
+                    {{$key->menu->nama_menu.' x '.$key->qty}} <br>
+
+                    @endforeach
+
+            </td>
+                <td>{{ $item->total_pesanan}}</td>
+                <td>{{ $item->total_pembayaran}}</td>
+                <td>{{ $item->no_meja}}</td>
+                <td>{{ $item->catatan}}</td>
+
+                <td>
+                    <form action="{{ route('updateStatusPsn',$item->id)}}" method="POST">
+                        @csrf
+                        @method('PUT')
+
+                    <select class="custom-select form-control-border" onchange="this.form.submit()" name="status_pesanan" id="status_pesanan">
+                        <option {{ $item->status_pesanan == 'Di Proses' ? 'selected':''}} value="Di Proses" >Diproses</option>
+                        <option {{ $item->status_pesanan == 'Disajikan' ? 'selected':''}} value="Disajikan" >Disajikan</option>
+                        <option {{ $item->status_pesanan == 'Selesai' ? 'selected':''}} value="Selesai" >Selesai</option>
+                      </select>
+                    </form>
+
+                    </td>
+                {{-- <td>{{ $item->type_pesanan}}</td> --}}
+
               </tr>
-              <tr>
-                <td>219</td>
-                <td>01-06-2023</td>
-                <td>Sandara</td>
-                <td>2</td>
-                <td><span class="tag tag-warning">60.000</span></td>
-              </tr>
-              <tr>
-                <td>657</td>
-                <td>01-06-2023</td>
-                <td>Lisa</td>
-                <td>3</td>
-                <td><span class="tag tag-primary">50.000</span></td>
-              </tr>
-              <tr>
-                <td>175</td>
-                <td>01-06-2023</td>
-                <td>Mikaeil</td>
-                <td>3</td>
-                <td><span class="tag tag-danger">50.000</span></td>
-              </tr>
-              <tr>
-                <td>134</td>
-                <td>01-06-2023</td>
-                <td>Kei</td>
-                <td>3</td>
-                <td><span class="tag tag-success">60.000</span></td>
-              </tr>
-              <tr>
-                <td>494</td>
-                <td>01-06-2023</td>
-                <td>musa</td>
-                <td>3</td>
-                <td><span class="tag tag-warning">80.000</span></td>
-              </tr>
-              <tr>
-                <td>832</td>
-                <td>01-06-2023</td>
-                <td>Jeki</td>
-                <td>3</td>
-                <td><span class="tag tag-primary">40.000</span></td>
-              </tr>
-              <tr>
-                <td>982</td>
-                <td>01-06-2023</td>
-                <td>Reni</td>
-                <td>7</td>
-                <td><span class="tag tag-danger">100.000</span></td>
-              </tr>
+
             </tbody>
+            @endforeach
           </table>
         </div>
         <!-- /.card-body -->
       </div>
       <!-- /.card -->
     </div>
+
   </div>
             </tbody>
           </table>

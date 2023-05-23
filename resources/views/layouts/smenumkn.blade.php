@@ -68,15 +68,6 @@
                           <li class="list-inline-item">
                               <img alt="Avatar" class="" style="height: 100px ;width: auto;" src="{{asset('storage/images/'.$key->gambar) }}">
                           </li>
-                          {{-- <li class="list-inline-item">
-                              <img alt="Avatar" class="table-avatar" src="{{asset('AdminLTE/dist')}}/img/avatar2.png">
-                          </li>
-                          <li class="list-inline-item">
-                              <img alt="Avatar" class="table-avatar" src="{{asset('AdminLTE/dist')}}/img/avatar3.png">
-                          </li>
-                          <li class="list-inline-item">
-                              <img alt="Avatar" class="table-avatar" src="{{asset('AdminLTE/dist')}}/img/avatar4.png">
-                          </li> --}}
                       </ul>
                   </td>
                   <td class="project_progress">

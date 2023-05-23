@@ -37,6 +37,9 @@
                       No Telepon
                   </th>
                   <th style="width: 30%">
+                    Status
+                </th>
+                  <th style="width: 30%">
                       Aksi
                   </th>
 
@@ -59,6 +62,10 @@
                   </td>
                   <td>
                     {{$dt->notelpon}}
+                  </td>
+
+                  <td>
+                    {{$dt->role}}
                   </td>
 
                   <td class="project-actions">

@@ -38,6 +38,7 @@
 
 </div>
 <!-- ./wrapper -->
+@include('app-layout.script')
 
 <!-- jQuery -->
 </body>
