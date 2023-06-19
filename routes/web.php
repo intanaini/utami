@@ -3,8 +3,11 @@
 use App\Http\Controllers\BahanMkn;
 use App\Http\Controllers\Karyawan;
 use App\Http\Controllers\Laporan;
+use App\Http\Controllers\MidtransController;
+use App\Http\Controllers\Pembayaran;
 use App\Http\Controllers\Pemesanan;
 use App\Http\Controllers\SMenuMkn;
+use App\Models\pembayaran_menu;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -34,7 +37,7 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('auth')->name('home');
-Route::group(['middleware' => ['auth','role:admin']], function(){
+Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('/admin', [App\Http\Controllers\HomeController::class, 'karyawan'])->name('admin');
     Route::get('/tambahkry', [Karyawan::class, 'tambahKaryawan'])->name('tambah-karyawan');
     Route::any('/insertdata', [Karyawan::class, 'insertdata'])->name('insertdata');
@@ -59,43 +62,50 @@ Route::group(['middleware' => ['auth','role:admin']], function(){
     Route::get('/masukanperbulan', [Laporan::class, 'masukanperbulan'])->name('masukanperbulan');
     Route::get('/pengeluaranperbulan', [Laporan::class, 'pengeluaranperbulan'])->name('pengeluaranperbulan');
     Route::post('/lpengeluaran/filter', [Laporan::class, 'lpengeluaran@filter'])->name('lpengeluaran.filter');
-    Route::post('/laporan/filter', [Laporan::class,'filter'])->name('laporan.filter');
-    Route::post('/laporan/filtermasukan', [Laporan::class,'filtermasukan'])->name('laporan.filtermasukan');
+    Route::post('/laporan/filter', [Laporan::class, 'filter'])->name('laporan.filter');
+    Route::post('/laporan/filtermasukan', [Laporan::class, 'filtermasukan'])->name('laporan.filtermasukan');
 
     Route::get('/pengeluaranperminggu', [Laporan::class, 'lpengeluaran@filter'])->name('lpengeluaran.php');
     Route::get('/grafikthn', [Laporan::class, 'grafikthn'])->name('grafikthn');
     Route::get('/grafikmasuk', [Laporan::class, 'grafikmasuk'])->name('grafikmasuk');
     Route::any('deletemenu/{id}', [SMenuMkn::class, 'deletemenu'])->name('deletemenu');
     Route::any('deleteuser{id}', [Karyawan::class, 'deleteuser'])->name('deleteuser');
-//edit
-Route::any('editmenu/{id}', [SMenuMkn::class, 'editmenu'])->name('editmenu');
-Route::any('updatemenumkn/{id}', [SMenuMkn::class, 'updatemenu'])->name('updatemenu');
-
+    //edit
+    Route::any('editmenu/{id}', [SMenuMkn::class, 'editmenu'])->name('editmenu');
+    Route::any('updatemenumkn', [SMenuMkn::class, 'updatemenu'])->name('updatemenumkn');
+    Route::any('edituser/{id}', [App\Http\Controllers\HomeController::class, 'edituser'])->name('edituser');
+    Route::any('updateuser/{id}', [App\Http\Controllers\HomeController::class, 'updateuser'])->name('updateuser');
 });
 
 
-Route::group(['middleware' => ['auth','role:admin,karyawan']], function(){
+Route::group(['middleware' => ['auth', 'role:admin,karyawan']], function () {
 
     // laporan
     Route::get('/lpemasukan', [Laporan::class, 'lpemasukan'])->name('lpemasukan');
     Route::get('/masukanperbulan', [Laporan::class, 'masukanperbulan'])->name('masukanperbulan');
-    Route::post('/laporan/filter', [Laporan::class,'filter'])->name('laporan.filter');
-    Route::post('/laporan/filtermasukan', [Laporan::class,'filtermasukan'])->name('laporan.filtermasukan');
+    Route::post('/laporan/filter', [Laporan::class, 'filter'])->name('laporan.filter');
+    Route::post('/laporan/filtermasukan', [Laporan::class, 'filtermasukan'])->name('laporan.filtermasukan');
 
     Route::get('/grafikthn', [Laporan::class, 'grafikthn'])->name('grafikthn');
-    Route::get('/grafikmasuk', [Laporan::class, 'grafikmasuk'])->name('grafikmasuk');
+    Route::any('/grafikbulan', [Laporan::class, 'grafikbulan'])->name('grafikbulan');
 
 
+    Route::put('/updateStatusMenu/{id}', [SMenuMkn::class, 'updateStatusMenu'])->name('updateStatusMenu');
 });
 
-Route::group(['middleware' => ['auth','role:karyawan']], function(){
-// user karyawan
-Route::get('/karyawan', [Karyawan::class, 'karyawan'])->name('karyawan');
-Route::get('/dftrpesanan', [Karyawan::class, 'dftrpesanan'])->name('dftrpesanan');
-Route::put('/updateStatusPsn/{id}', [Karyawan::class, 'updateStatusPsn'])->name('updateStatusPsn');
-Route::get('/dftrreservasi', [Karyawan::class, 'dftrreservasi'])->name('dftrreservasi');
-
+Route::group(['middleware' => ['auth', 'role:karyawan']], function () {
+    // user karyawan
+    Route::get('/karyawan', [Karyawan::class, 'karyawan'])->name('karyawan');
+    Route::get('/dftrpesanan', [Karyawan::class, 'dftrpesanan'])->name('dftrpesanan');
+    Route::put('/updateStatusPsn/{id}', [Karyawan::class, 'updateStatusPsn'])->name('updateStatusPsn');
+    Route::get('/dftrreservasi', [Karyawan::class, 'dftrreservasi'])->name('dftrreservasi');
 });
+
+
+
+Route::get('/coba', [MidtransController::class, 'index'])->name('cobaa');
+Route::any('/coba', [MidtransController::class, 'index'])->name('payment.process');
+
 
 
 
@@ -109,8 +119,24 @@ Route::get('/pemesananreservasi', [Pemesanan::class, 'pemesananreservasi'])->nam
 // Route::post('/insertreservasi', [Pemesanan::class, 'insertreservasi'])->name('insertreservasi');/
 // Route::any('/save-total', [Pemesanan::class, 'insertreservasi'])->name('insertreservasi');
 // Route::post('/simpanpsn', [Pemesanan::class, 'SimpanPsn'])->name('simpan-psn');
-Route::any('/insertreservasi', [Pemesanan::class,'create']);
-Route::any('/insertpesanan', [Pemesanan::class,'create1']);
+Route::any('/insertreservasi', [Pemesanan::class, 'create']);
+Route::any('/insertpesanan', [Pemesanan::class, 'create1']);
+
+Route::get('/cekpesanan', [Pemesanan::class, 'cekpesanan'])->name('cekpesanan');
+Route::get('/detailditempat', [Pemesanan::class, 'detailditempat'])->name('detailditempat');
+Route::get('/detailreservasi', [Pemesanan::class, 'detailreservasi'])->name('detailreservasi');
+
+
+// Pembayaran
+// Route::post('/payment', [Pembayaran::class, 'pembayaran'])->name('pembayaran');
+// Route::get('/payment', 'Pembayaran@index')->name('payment.index');
+// Route::post('/payment/process', 'Pembayaran@process')->name('payment.process');
+
+// Route::post('/midtrans/callback', 'MidtransController@callback');
+// Route::post('/midtrans/charge', 'MidtransController@charge');
+// Route::get('/midtrans/success', 'MidtransController@success');
+// Route::get('/midtrans/failure', 'MidtransController@failure');
+
 // Route::get('/insertpesan', [Pemesanan::class,'create']);
 
 // Route::post('/simpann', [Pemesanan::class,'simpan'])->name('simpann');
@@ -133,5 +159,3 @@ Route::any('/insertpesanan', [Pemesanan::class,'create1']);
 //     // Rute yang hanya bisa diakses oleh karyawan
 //     Route::get('/employee', [KaryawanRole::class, 'index']);
 // });
-
-

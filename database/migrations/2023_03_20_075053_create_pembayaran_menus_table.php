@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('pembayaran_menus', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_pesanan');
+            $table->string('number', 16);
+            $table->decimal('total_price', 10, 2);
+            $table->enum('payment_status', ['1', '2', '3', '4'])->comment('1=menunggu pembayaran, 2=sudah dibayar, 3=kadaluarsa, 4=batal');
+            $table->string('snap_token', 36)->nullable();
+            $table->foreign('id_pesanan')->references('id')->on('pemesanan_menus');
             $table->timestamps();
         });
     }

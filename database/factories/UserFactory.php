@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -20,9 +21,10 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'notelpon' => fake()->phoneNumber(),
+            'notelpon' => '081234567898',
             'password' => bcrypt('12345678'), // password
             'remember_token' => Str::random(10),
+            'role'=> Arr::random(['admin','karyawan']),
         ];
     }
 

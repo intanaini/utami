@@ -15,6 +15,26 @@
         </button> --}}
       </div>
     </div>
+   <form method="post" action="{{ route('grafikbulan') }}">
+    @csrf
+
+    <select name="tahun">
+        <option value="">Tahun</option>
+        @foreach ($tahun as  $key)
+
+        <option value="{{ $key }}">{{ $key }}</option>
+        @endforeach
+        {{-- @foreach ( $tahunz as $item ) --}}
+        {{-- <option value="{{$item->format('Y')}}">{{$item->format('Y')}}</option> --}}
+
+        {{-- @endforeach --}}
+
+    </select>
+
+    <button class="btn btn-primary mt-1" type="submit">Filter</button>
+
+
+</form>
     <div class="card-body">
         <div class="chart">
             <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
@@ -60,29 +80,7 @@
 
 
 
-      // This will get the first returned node in the jQuery collection.
 
-
-      //-------------
-      //- LINE CHART -
-      //--------------
-
-
-      //-------------
-      //- DONUT CHART -
-      //-------------
-      // Get context with jQuery - using jQuery's .get() method.
-
-
-      //-------------
-      //- PIE CHART -
-      //-------------
-      // Get context with jQuery - using jQuery's .get() method.
-
-
-      //-------------
-      //- BAR CHART -
-      //-------------
       var barChartCanvas = $('#barChart').get(0).getContext('2d')
       var barChartData = $.extend(true, {}, areaChartData)
       var temp0 = areaChartData.datasets[0]

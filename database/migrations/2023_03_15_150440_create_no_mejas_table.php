@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_pemesananmenu');
             $table->string('nomor_meja');
-            $table->foreign('id_pemesananmenu')->references('id')->on('pemesanan_menus')->onDelete('cascade');
+            $table->foreign('id_pemesananmenu')->references('id')->on('pemesanan_menus')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

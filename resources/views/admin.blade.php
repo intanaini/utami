@@ -1,16 +1,27 @@
 @extends('layouts.main')
 
 @section('isi')
-<div class="card-header">
+<div class="card card-success">
+    <div class="card-header">
+      <h3 class="card-title">Daftar Karyawan Warung Utami 354</h3>
+
+      <div class="card-tools">
+        <td>
+            {{-- <a href="/TambahKry" class="nav-link active"> --}}
+                <a href="/tambahkry"   type="button" class="btn btn-block btn-primary">Tambah Karyawan</a>
+            </td>
+      </div>
+    </div>
+{{-- <div class="card-header">
     <h3 class="card-title">Daftar Karyawan</h3>
     <div class="card-tools">
-      <td>
+      <td> --}}
         {{-- <a href="/TambahKry" class="nav-link active"> --}}
-            <a href="/tambahkry"   type="button" class="btn btn-block btn-primary">Tambah Karyawan</a>
+            {{-- <a href="/tambahkry"   type="button" class="btn btn-block btn-primary">Tambah Karyawan</a>
         </td>
     </div>
 
-  </div>
+  </div> --}}
   <div class="card">
     <div class="card-header">
 
@@ -65,29 +76,47 @@
                   </td>
 
                   <td>
-                    {{$dt->role}}
+                    {{ $dt->role }}
+
+                    {{-- <form action="{{ route('updateuser',$dt->id)}}" method="POST">
+                        @csrf
+                        @method('PUT')
+
+                    <select class="custom-select form-control-border" onchange="this.form.submit()" name="role" id="role">
+                        <option {{ $dt->role == 'admin' ? 'selected':''}} value="Admin" >admin</option>
+                        <option {{ $dt->role == 'karyawa' ? 'selected':''}} value="Karyawan" >karyawan</option>
+                      </select>
+                    </form> --}}
                   </td>
 
-                  <td class="project-actions">
+                  {{-- <td class="project-actions">
                       <a class="btn btn-primary btn-sm" href="#">
                           <i class="fas fa-folder">
                           </i>
                           View
                       </a>
-                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        <a class="btn btn-info btn-sm" href="#">
+                        <a class="btn btn-info btn-sm" href="{{route('edituser',$dt->id)}}">
                             <i class="fas fa-pencil-alt">
                             </i>
-                            Edit
-                        </a>
-                      </button>
-
+                            Edit </a>
                       <a class="btn btn-danger btn-sm" href="{{route('deleteuser',$dt->id)}}">
                         <i class="fas fa-trash">
                           </i>
                           Delete
                       </a>
-                  </td>
+                  </td> --}}
+                  <td class="project-actions ">
+                    <a class="btn btn-info btn-sm" href="{{route('edituser',$dt->id)}}">
+                          <i class="fas fa-pencil-alt">
+                          </i>
+                          Edit
+                        </a>
+                    <a class="btn btn-danger btn-sm" href="{{route('deleteuser',$dt->id)}}">
+                        <i class="fas fa-trash">
+                        </i>
+                        Delete
+                    </a>
+                </td>
               </tr>
 
             @endforeach

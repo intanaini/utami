@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('typemakanan');
             $table->string('totalbahan');
             $table->string('subtotal');
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('id_user')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
 

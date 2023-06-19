@@ -13,11 +13,17 @@ return new class extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
+            // $table->unsignedBigInteger('id_pemesananmenu');
             $table->string('harga_menu');
             $table->string('nama_menu');
             $table->string('type_menu');
             $table->string('gambar');
             $table->string('status');
+            // $table->foreign('id_pemesananmenu')->references('menus')->on('pemesanan_menus')->onDelete('cascade');
+
+            // $table->foreign('menu')->onUpdate('cascade')->onDelete('cascade');
+            // $table->foreign('id_pemesananmenu')->references('id')->on('pemesanan_menus')->onDelete('cascade')->onUpdate('cascade');
+            // $table->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

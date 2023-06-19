@@ -44,10 +44,59 @@ class Laporan extends Controller
 
        return view('layouts.grafikthn',compact(['tahun','masuk','keluar']));
     }
-    public function grafikmasuk()
+    public function grafikbulan(Request $request)
     {
-       return view('layouts.grafikmasuk');
+        $this->validate($request,[
+            'tahun'=>'required'
+        ]);
+
+        $data_masuk =pemesanan_menu::whereYear('created_at',$request->tahun)->get();
+        $data_keluar =lapkeluar::whereYear('created_at',$request->tahun)->get();
+        $keluar =[];
+        $masuk =[];
+        $bulan = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+
+        // foreach ($data_masuk as $key) {
+        //     array_push($bulan,$key->created_at->format('m'));
+        // }
+        // foreach ($data_keluar as $key) {
+        //     array_push($bulan,$key->created_at->format('m'));
+        // }
+        // $bulan =array_unique($bulan);
+        // asort($bulan);
+        // dd($bulan);
+
+
+        foreach ($bulan as $key => $value) {
+            // dd($value);
+            $dk = lapkeluar::whereYear('created_at',$request->tahun)->whereMonth('created_at',$value)->get();
+            if ($dk->count()>0) {
+                # code...
+                array_push($keluar,$dk->sum('sub_total'));
+            }else{
+                array_push($keluar,0);
+
+            }
+
+        }
+        foreach ($bulan as $key => $value) {
+            $dm = pemesanan_menu::whereYear('created_at',$request->tahun)->whereMonth('created_at',$value)->get();
+            if ($dm->count()>0) {
+            array_push($masuk,$dm->sum('total_pembayaran'));
+            }else{
+                array_push($masuk,0);
+            }
+
+        }
+        // dd($masuk);
+        // $bulan = array_values($bulan);
+
+
+       return view('layouts.grafikbulan',compact(['keluar','masuk']));
+
     }
+
+
     public function lpemasukan()
     {
         $lpmasuk = pemesanan_menu::all();

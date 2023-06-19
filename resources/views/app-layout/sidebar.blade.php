@@ -18,7 +18,7 @@
       </div>
 
       <!-- SidebarSearch Form -->
-      <div class="form-inline">
+      {{-- <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
           <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
           <div class="input-group-append">
@@ -27,7 +27,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> --}}
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -42,7 +42,8 @@
                   </p>
                 </a>
               </li>
-               <li class="nav-item">
+
+            <li class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-hamburger"></i>
               <p>
@@ -67,7 +68,7 @@
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-hamburger"></i>
               <p>
                 Stok Menu
                 <i class="right fas fa-angle-left"></i>
@@ -103,6 +104,14 @@
                   <p>Laporan Pemasukan</p>
                 </a>
               </li>
+              {{-- <ul class="nav nav-treeview"> --}}
+                <li class="nav-item">
+                  <a href="/lpengeluaran" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Laporan Pengeluaran</p>
+                  </a>
+                </li>
+
               {{-- <li class="nav-item">
                 <a href="/grafikmasuk" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -111,12 +120,12 @@
               </li>
             </ul>
           </li> --}}
-
+{{--
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Laporan Pengeluaran
+                Grafik Laporan
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -126,15 +135,24 @@
                   <i class="far fa-circle nav-icon"></i>
                   <p>Laporan </p>
                 </a>
-              </li>
+              </li> --}}
 
               {{-- <ul class="nav nav-treeview"> --}}
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                   <a href="/grafikthn" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Grafik Laporan Tahunan</p>
                   </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="/home" class="nav-link">
+                      <i class="nav-icon fa fa-user"></i>
+                      <p>
+                        Karyawan
+                      </p>
+                    </a>
+                  </li> --}}
               {{-- <li class="nav-item">
                 <a href="/grafikthn" class="nav-link">
                   <i class="nav-icon fa fa-user"></i>
@@ -159,7 +177,24 @@
             {{-- </ul>
           </li> --}}
 
-
+          {{-- <ul class="nav nav-treeview"> --}}
+            {{-- <li class="nav-item">
+                <a href="/home" class="nav-link">
+                  <i class="nav-icon fa fa-user"></i>
+                  <p>
+                    Karyawan
+                  </p>
+                </a>
+              </li> --}}
+              </ul>
+              <li class="nav-item">
+                <a href="/grafikthn" class="nav-link">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p>
+                    Grafik Laporan
+                  </p>
+                </a>
+              </li>
       </nav>
       <!-- /.sidebar-menu -->
     </div>

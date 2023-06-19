@@ -4,7 +4,7 @@
 {{-- @json($laporan) --}}
 <div class="card">
     <div class="card-header">
-      <h3 class="card-title">Daftar Laporan Pengeluaran Perbulan Warung Makan Utami 354
+      <h3 class="card-title">Daftar Laporan Pemasukan Warung Makan Utami 354
 
 
       </h3>
@@ -13,6 +13,11 @@
     <!-- /.card-header -->
     <div class="card-body">
         <table id="example2" class="table table-bordered table-striped">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="example1" class="table table-bordered table-striped dataTable dtr-inline"
+                        aria-describedby="example1_info">
             <thead>
                 <tr><th >ID</th>
               <th >Waktu</th>
@@ -61,12 +66,13 @@
               <th>Rp. {{ number_format($lpmasuk->sum('total_pembayaran')) }}</th>
             </tr>
             </tfoot>
-          </table>
-      </div>
+        </table>
+    </div>
     <!-- /.card-body -->
-  </div>
-
-
+                </div>
+        </table>
+    </div>
+</div>
 @endsection
 
 

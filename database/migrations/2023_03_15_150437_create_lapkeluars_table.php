@@ -18,7 +18,7 @@ return new class extends Migration
             $table->dateTime('waktu_pembelian');
             $table->string('total_bahan');
             $table->string('sub_total');
-            $table->foreign('id_stokbahan')->references('id')->on('stokbahans')->onDelete('cascade');
+            $table->foreign('id_stokbahan')->references('id')->on('stokbahans')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

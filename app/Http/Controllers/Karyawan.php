@@ -18,7 +18,7 @@ class Karyawan extends Controller
 
     public function dftrpesanan()
     {
-        $pemesanan = pemesanan_menu::where('type_pesanan','Makan Ditempat')->get();
+        $pemesanan = pemesanan_menu::where('type_pesanan','Makan Ditempat')->orderByDesc('created_at')->get();
     return view('layouts.dftrpesanan', ['pesan' => $pemesanan]);
     }
 
@@ -35,7 +35,7 @@ class Karyawan extends Controller
 
     public function dftrreservasi()
     {
-        $pemesanan = pemesanan_menu::where('type_pesanan','Reservasi')->get();
+        $pemesanan = pemesanan_menu::where('type_pesanan','Reservasi')->orderByDesc('created_at')->get();
 
     return view('layouts.dftrreservasi',['pesan' => $pemesanan]);
 
@@ -52,6 +52,7 @@ class Karyawan extends Controller
             'name'=> 'required',
             'email'=> 'required',
             'password'=>'required',
+            'role'=>'required',
             'notelpon'=>'required'
 
         ]);
@@ -61,6 +62,7 @@ class Karyawan extends Controller
             'email'=> $request->email,
             'password'=> bcrypt($request->password),
             'notelpon'=> $request->notelpon,
+            'role'=> $request->role,
             'remember_token'=> Str::random(60),
         ]);
 

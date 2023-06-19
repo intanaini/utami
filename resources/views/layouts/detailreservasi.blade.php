@@ -1,16 +1,13 @@
-@extends('layouts.main')
+@extends('layouts.pemesananmain')
 
-@section('isi')
+@section('pemesanan.isi')
     <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title">Daftar Laporan Pengeluaran Warung Makan Utami 354</h3>
+            <h3 class="card-title">Detail Pemesanan Reservasi Warung Makan Utami 354</h3>
         </div>
         <!-- /.card-header -->
         <!-- resources/views/laporan/index.blade.php -->
         {{-- @json($tahunz) --}}
-
-
-        
 
 
 
@@ -24,29 +21,29 @@
                             <thead>
 
                                 <tr>
-                                    <th>Waktu</th>
-                                    <th>Nama Bahan</th>
-                                    <th>Total Bahan</th>
-                                    <th>Sub Total</th>
+                                    <th>Nama Pelanggan</th>
+                                    <th>Nomor Meja</th>
+                                    <th>Detail Pesanan</th>
+                                    <th>Status Pemesanan</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($laporan as $key)
+                                {{-- @foreach () --}}
                                     <tr>
 
-                                        <td>{{ $key->waktu_pembelian }}</td>
+                                        {{-- <td>{{ $key->waktu_pembelian }}</td>
                                         <td>{{ $key->nama_bahan }}</td>
                                         <td>{{ $key->total_bahan }} kg</td>
-                                        <td>{{ $key->sub_total }}</td>
+                                        <td>{{ $key->sub_total }}</td> --}}
                                     </tr>
-                                @endforeach
+                                {{-- @endforeach --}}
                             </tbody>
                             <tfoot>
                                 <tr>
+                                    {{-- <th></th>
                                     <th></th>
                                     <th></th>
-                                    <th>Total</th>
-                                    <th>Rp. {{ number_format($laporan->sum('sub_total')) }}</th>
+                                    <th>Rp. {{ number_format($laporan->sum('sub_total')) }}</th> --}}
                                 </tr>
                             </tfoot>
                         </table>

@@ -3,7 +3,7 @@
 @section('kry.isi')
 <div class="row">
     <div class="col-12">
-      <div class="card">
+        <div class="card card-success">
         <div class="card-header">
           <h3 class="card-title">Daftar Reservasi Warung Makan Utami 354</h3>
 
@@ -12,59 +12,73 @@
               <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
               <div class="input-group-append">
-                <button type="submit" class="btn btn-default">
+                {{-- <button type="submit" class="btn btn-default">
                   <i class="fas fa-search"></i>
-                </button>
+                </button> --}}
               </div>
             </div>
           </div>
         </div>
         <!-- /.card-header -->
         <div class="card-body table-responsive p-0" style="height: 300px;">
+        <table id="example2" class="table table-bordered table-striped">
           <table class="table table-head-fixed text-nowrap">
             <thead>
                 <tr>
-                    <th>ID </th>
+                    <th>No</th>
                     <th>Waktu</th>
-                    <th>Nama Pelanggan</th>
+                    <th>Nama </th>
                     <th>Menu </th>
-                    <th>Jumlah Pesanan</th>
-                    <th>Total Pembayaran</th>
+                    <th>Jumlah</th>
+                    <th>Total Bayar</th>
+                    {{-- <th>Metode Bayar</th> --}}
                     <th>Waktu Reservasi</th>
                     <th>No Telpon</th>
+                    <th>Catatan</th>
                     <th>Status</th>
                   </tr>
                 </thead>
+                @php
+                $no = 1;
+                @endphp
                 @foreach ($pesan as $item)
 
                 <tbody>
                   <tr>
-                    <td>{{ $item->id}}</td>
+                    <td>{{ $no++ }}</td>
                     <td>{{ $item->created_at}}</td>
                     <td>{{ $item->nama_pelanggan}}</td>
                     <td>@foreach ($item->detail as $key)
-                        {{$key->menu->nama_menu.' x '.$key->qty}}
+                        {{$key->menu->nama_menu.' x '.$key->qty}} <br>
 
                     @endforeach</td>
                     <td>{{ $item->total_pesanan}}</td>
                     <td>{{ $item->total_pembayaran}}</td>
+                    {{-- <td>{{ $item->metode_pembayaran}}</td> --}}
                     <td>{{ $item->waktu->format('d M Y H:i:s a')}}</td>
                     <td>{{ $item->no_telepon}}</td>
+                    <td>{{ $item->catatan}}</td>
 <td>
     <form action="{{ route('updateStatusPsn',$item->id)}}" method="POST">
         @csrf
         @method('PUT')
+        <select class="custom-select form-control-border {{ $item->status_pesanan == 'Reservasi' ? 'bg-yellow text-white' : ($item->status_pesanan == 'Di Proses' ? 'bg-orange text-white' : ($item->status_pesanan == 'Selesai' ? 'bg-blue text-white' : ($item->status_pesanan == 'Dibatalkan' ? 'bg-red text-white' : ''))) }}" onchange="this.form.submit()" name="status_pesanan" id="status_pesanan" style="width: 150px">
+            <option {{ $item->status_pesanan == 'Reservasi' ? 'selected' : '' }} value="Reservasi" class="bg-yellow">Reservasi</option>
+            <option {{ $item->status_pesanan == 'Di Proses' ? 'selected' : '' }} value="Di Proses" class="bg-orange">Diproses</option>
+            {{-- <option {{ $item->status_pesanan == 'Disajikan' ? 'selected' : '' }} value="Disajikan" class="bg-blue">Disajikan</option> --}}
+            <option {{ $item->status_pesanan == 'Selesai' ? 'selected' : '' }} value="Selesai" class="bg-green">Selesai</option>
+            <option {{ $item->status_pesanan == 'Dibatalkan' ? 'selected' : '' }} value="Dibatalkan" class="bg-red">Dibatalkan</option>
 
-    <select class="custom-select form-control-border" onchange="this.form.submit()" name="status_pesanan" id="status_pesanan">
+        </select>
+    {{-- <select class="custom-select form-control-border" onchange="this.form.submit()" name="status_pesanan" id="status_pesanan">
         <option {{ $item->status_pesanan == 'Reservasi' ? 'selected':''}} value="Reservasi" >Reservasi</option>
         <option {{ $item->status_pesanan == 'Di Proses' ? 'selected':''}} value="Di Proses" >Diproses</option>
         <option {{ $item->status_pesanan == 'Disajikan' ? 'selected':''}} value="Disajikan" >Disajikan</option>
         <option {{ $item->status_pesanan == 'Selesai' ? 'selected':''}} value="Selesai" >Selesai</option>
-      </select>
+      </select> --}}
     </form>
 </td>
-
-                  </tr>
+ </tr>
 
                 </tbody>
                 @endforeach
@@ -72,19 +86,18 @@
         </div>
         <!-- /.card-body -->
       </div>
-      <!-- /.card -->
+    </div>
+</table>
     </div>
   </div>
-            </tbody>
-          </table>
         </div>
         <!-- /.card-body -->
-      </div>
+      {{-- </div>
       <!-- /.card -->
     </div>
   </div>
   <!-- /.row -->
-</div><!-- /.container-fluid -->
+</div><!-- /.container-fluid --> --}}
 </section>
 <!-- /.content -->
 </div>

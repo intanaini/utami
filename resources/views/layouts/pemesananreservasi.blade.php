@@ -1,5 +1,16 @@
 @extends('layouts.pemesananmain')
 
+@section('top-script')
+    <script type="text/javascript"
+        src="https://app.midtrans.com/snap/snap.js"
+        data-client-key="Mid-client-z8Yr_1aXZRFJz8BJ">
+    </script>
+     {{-- <script type="text/javascript"
+      src="https://app.sandbox.midtrans.com/snap/snap.js"
+      data-client-key="SB-Mid-client-KZKEsAfzYjrp-cSh">
+    </script> --}}
+@endsection
+
 @section('pemesanan.isi')
 <div class="card card-primary">
 
@@ -40,29 +51,33 @@
                               </span>
                           @enderror
                             </div>
+
+                            
                     <div class="form-group">
                         <label for="exampleInputEmail1">Menu Pesanan</label>
                         <div class="row">
                         @foreach ( $makan as $key )
-                        <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="col-6">
                         <div class="custom-control custom-checkbox">
                             {{-- <div class="row"> --}}
-                                <div class="col-sm-6 col-md-6 col-lg-6 badge bg-secondary mb-1">
+                                <div class="row">
+                                <div class="col-sm-4 col-md-6 col-lg-4 badge bg-secondary mb-1">
                                     {{-- <input class="custom-control-input" type="checkbox" id="customCheckbox1" value="option1"> --}}
                                     <label for="menuss"  class="">{{ $key->nama_menu }}</label><br>
-                                    <img alt="Avatar" id="menuss" class="" style="height: 100px ;width: auto;" src="{{asset('storage/images/'.$key->gambar) }}">
+                                    <img alt="Avatar" id="menuss" class="" style="height: 100px; max-width:100px;" src="{{asset('storage/images/'.$key->gambar) }}">
                                     {{-- <br> --}}
                                     {{-- <span class="item-price"> Harga = Rp.{{ $key->harga_menu }}</span> --}}
                                 </div>
-                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="col-sm-2 col-md-3 col-lg-4">
                                     <label for="input-{{ $key->id }}">Jumlah</label>
                                     <input id="input-{{ $key->id }}" type="number" min="0" value="0"  data-price="{{ $key->harga_menu }}" class="form-control item-quantity" placeholder="masukkan jumlah">
                                 </div>
-                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="col-sm-2 col-md-3 col-lg-4">
                                     <label>Harga</label>
                                     {{-- <input type="number" class="form-control" value="{{ $key->harga_menu }}" readonly> --}}
                                     <span class="item-price ">   Rp.{{ $key->harga_menu }}</span>
                                 </div>
+                            </div>
 
                           </div>
                         </div>
@@ -88,8 +103,22 @@
 
       </div>
       <div class="form-group">
+        <label for="exampleInputEmail1">Pilih Metode Pembayaran</label>
+        <div class="col">
+            <select name="pembayaran">
+                <option value="tunai">Tunai</option>
+                <option value="non tunai">Non Tunai</option>
+            </select>
+        </div>
+        @error('pembayaran')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
+      <div class="form-group">
         <label for="catatan"><p>Catatan  </p></label> <br>
-        <textarea name="catatan" class="catatan" id="catatan" cols="10" rows="4"></textarea><br>
+        <textarea name="catatan" class="catatan w-50" rows="5" id="catatan" ></textarea><br>
         <label for="exampleInputEmail1"><p>Total Pembayaran : Rp. <span id="total"></span></p></label>
             </div>
 <div class="form-group">
@@ -107,6 +136,9 @@
 @endsection
 @push('js')
 {<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="https://app.midtrans.com/snap/snap.js" data-client-key="{{env('MIDTRANS_CLIENT_KEY')}}"></script>
+
 
 {{-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> --}}
 <script>
@@ -150,7 +182,7 @@
   if (!isValid) {
     Swal.fire({
       title: 'Error!',
-      text: 'Please enter a valid quantity for at least one item.',
+      text: 'Silahkan Masukkan Pesanan Anda.',
       icon: 'error',
       confirmButtonText: 'OK'
     });
@@ -162,7 +194,7 @@
         namaPelangganInput.classList.add('is-invalid');
         Swal.fire({
             title: 'Error!',
-            text: 'Please enter your name.',
+            text: 'Silahkan masukan nama anda.',
             icon: 'error',
             confirmButtonText: 'OK'
         });
@@ -178,7 +210,7 @@
         noTeleponInput.classList.add('is-invalid');
         Swal.fire({
             title: 'Error!',
-            text: 'Please enter your phone number.',
+            text: 'Silahkan masukan nomor telepon.',
             icon: 'error',
             confirmButtonText: 'OK'
         });
@@ -187,7 +219,7 @@
         noTeleponInput.classList.add('is-invalid');
         Swal.fire({
             title: 'Error!',
-            text: 'Please enter a phone number with more than 11 digits.',
+            text: 'Masukan nomor telepon lebih dari 11 angka.',
             icon: 'error',
             confirmButtonText: 'OK'
         });
@@ -204,7 +236,7 @@
         waktuInput.classList.add('is-invalid');
         Swal.fire({
             title: 'Error!',
-            text: 'Please enter a valid time.',
+            text: 'Silahkan tentukan waktu reservasi.',
             icon: 'error',
             confirmButtonText: 'OK'
         });
@@ -231,19 +263,42 @@
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                    Swal.fire({
+                    let data = JSON.parse(xhr.response)
+                    snap.pay(data.snapToken, {
+                    // Optional
+                    onSuccess: function(result){
+                        Swal.fire({
                         icon: 'success',
                         title: 'Success!',
-                        text: 'Data has been saved',
+                        text: 'Pembayaran Pesanan Reservasi Berhasil ',
                         confirmButtonText: 'OK',
                     }).then(() => {
                         window.location.reload();
                     });
+                    },
+                    // Optional
+                    onPending: function(result){
+                        
+                    },
+                    // Optional
+                    onError: function(result){
+                        
+                    }
+                    });
+
+                    // Swal.fire({
+                    //     icon: 'success',
+                    //     title: 'Success!',
+                    //     text: 'Pesanan Reservasi Berhasil ',
+                    //     confirmButtonText: 'OK',
+                    // }).then(() => {
+                    //     window.location.reload();
+                    // });
                 } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error!',
-                        text: 'Data could not be saved',
+                        text: 'Pesanan Gagal',
                         confirmButtonText: 'OK',
                     });
                 }

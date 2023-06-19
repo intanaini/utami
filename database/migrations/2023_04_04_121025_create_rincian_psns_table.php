@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id_pesanan');
             $table->integer('qty');
             $table->integer('total');
-            $table->foreign('id_menu')->references('id')->on('menus');
-            $table->foreign('id_pesanan')->references('id')->on('pemesanan_menus');
+            $table->foreign('id_menu')->references('id')->on('menus')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('id_pesanan')->references('id')->on('pemesanan_menus')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -1,7 +1,6 @@
 <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
+    <strong>Copyright &copy; 2014-2021 Warung Makan Utami 354</a>.</strong>
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0-rc
+      <b></b>
     </div>
   </footer>

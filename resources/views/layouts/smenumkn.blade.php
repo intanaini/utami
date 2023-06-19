@@ -1,7 +1,8 @@
 @extends('layouts.main')
 
 @section('isi')
-<div class="card-header">
+<div class="card card-success">
+  <div class="card-header">
     <h3 class="card-title">Daftar Stok Menu Makanan Warung Makan Utami 354</h3>
     <div class="card-tools">
       <td>
@@ -79,21 +80,31 @@
                   </td>
 
                   <td>
-                    {{ $key->status }}
+                    {{-- {{ $key->status }} --}}
+
+                    <form action="{{ route('updateStatusMenu',$key->id)}}" method="POST">
+                        @csrf
+                        @method('PUT')
+
+                    <select class="custom-select form-control-border" onchange="this.form.submit()" name="status" id="status">
+                        <option {{ $key->status == 'Tersedia' ? 'selected':''}} value="Tersedia" >Tersedia</option>
+                        <option {{ $key->status == 'Tidak Tersedia' ? 'selected':''}} value="Tidak Tersedia" >Tidak Tersedia</option>
+                      </select>
+                    </form>
                   </td>
                   {{-- <td class="project-state">
                       <span class="badge badge-success">Success</span>
                   </td> --}}
                   <td class="project-actions text-right">
-                      <a class="btn btn-primary btn-sm" href="#">
+                      {{-- <a class="btn btn-primary btn-sm" href="#">
                           <i class="fas fa-folder">
                           </i>
                           View
-                      </a>
+                      </a> --}}
                       <a type="button" class="btn btn-info btn-sm" href="{{route('editmenu',$key->id)}}">
                             <i class="fas fa-pencil-alt">
                             </i>
-                            Edittttt
+                            Edit</a>
                       <a class="btn btn-danger btn-sm" href="{{route('deletemenu',$key->id)}}">
                           <i class="fas fa-trash">
                           </i>

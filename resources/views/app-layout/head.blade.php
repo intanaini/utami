@@ -33,6 +33,7 @@
   <!-- Theme style -->
 
     <!-- Theme style -->
-@stack('css')
+  @stack('css')
+  @yield('top-script')
 
   </head>
